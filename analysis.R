@@ -130,20 +130,52 @@ dev.off()
 # 2. Consider last n (3, 2, or 1) words of inupt.
 # 3. Search through n+1 gram for exact match
 # 4. Offer top three n+1 words as predictions
+#
+# Next up:
+# [X] Convert to data tables
+# [ ] Calculate maximum likelihood estimates
+# [ ] Calculate discounted counts
+# [ ] 
 # ==============================================================================
+# 
+# nlpPredictor <- function(x) {
+#   input <- x
+#   input_tokens <- cleanWords(input) %>% strsplit(" ")
+#   search_tokens <- tail(input_tokens[[1]], 3)
+#   search_string <- paste0(paste(search_tokens, collapse="_"), "_")
+# 
+#   if (length(search_tokens) == 3) {
+#     ngrams_matched <- all_4grams[grep(search_string, all_4grams$ngram)[1:3],]
+#   } else if (length(search_tokens) == 2) {
+#     ngrams_matched <- all_3grams[grep(search_string, all_3grams$ngram)[1:3],]
+#   } else {
+#     ngrams_matched <- all_2grams[grep(search_string, all_2grams$ngram)[1:3],]
+#   }
+# 
+#   pred <- matrix(data=NA, nrow=1, ncol=3)
+# 
+#   for (i in 1:3) {
+#     pred[i] <- strsplit(ngrams_matched$ngram, "_")[[i]][length(strsplit(ngrams_matched$ngram, "_")[[i]])]
+#   }
+# 
+#   paste0(input, " (1) ", pred[1], " / (2) ", pred[2], " / (3) ", pred[3])
+# 
+# }
 
-nlpPredictor <- function(x) {
-  input <- x
+  input <- "  I.   "
   input_tokens <- cleanWords(input) %>% strsplit(" ")
   search_tokens <- tail(input_tokens[[1]], 3)
-  search_string <- paste0(paste(search_tokens, collapse="_"), "_")
+  search_string <- paste0("^", paste(search_tokens, collapse="_"), "_")
 
   if (length(search_tokens) == 3) {
-    ngrams_matched <- all_4grams[grep(search_string, all_4grams$ngram)[1:3],]
+    ngrams_matched <- all_4grams[grep(search_string, all_4grams$ngram),]
+    ngrams_matched$qml <- ngrams_matched$freq / sum(ngrams_matched$freq)
   } else if (length(search_tokens) == 2) {
-    ngrams_matched <- all_3grams[grep(search_string, all_3grams$ngram)[1:3],]
+    ngrams_matched <- all_3grams[grep(search_string, all_3grams$ngram),]
+    ngrams_matched$qml <- ngrams_matched$freq / sum(ngrams_matched$freq)
   } else {
-    ngrams_matched <- all_2grams[grep(search_string, all_2grams$ngram)[1:3],]
+    ngrams_matched <- all_2grams[grep(search_string, all_2grams$ngram),]
+    ngrams_matched$qml <- ngrams_matched$freq / sum(ngrams_matched$freq)
   }
 
   pred <- matrix(data=NA, nrow=1, ncol=3)
@@ -153,5 +185,4 @@ nlpPredictor <- function(x) {
   }
 
   paste0(input, " (1) ", pred[1], " / (2) ", pred[2], " / (3) ", pred[3])
-
-}
+  

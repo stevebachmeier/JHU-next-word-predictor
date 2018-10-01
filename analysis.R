@@ -28,13 +28,14 @@ blogs_raw <- readLines(con, skipNul=T, encoding="UTF-8")
 close(con)
 
 # ---- SAMPLE DATA ----
+sample_percentage <- 0.01
 set.seed(101)
-twitter_sample <- sample(x=twitter_raw, size=round(length(twitter_raw)*0.01), 
-                            replace=F)
-news_sample <- sample(x=news_raw, size=round(length(news_raw)*0.01), 
-                                          replace=F)
-blogs_sample <- sample(x=blogs_raw, size=round(length(blogs_raw)*0.01), 
-                                          replace=F)
+twitter_sample <- sample(x=twitter_raw, replace=F,
+                         size=round(length(twitter_raw)*sample_percentage))
+news_sample <- sample(x=news_raw, replace=F, 
+                      size=round(length(news_raw)*sample_percentage))
+blogs_sample <- sample(x=blogs_raw, replace=F, 
+                       size=round(length(blogs_raw)*sample_percentage))
 all_sample <- c(twitter_sample, news_sample, blogs_sample)
 
 # ==============================================================================
@@ -162,27 +163,42 @@ dev.off()
 # 
 # }
 
-  input <- "  I.   "
-  input_tokens <- cleanWords(input) %>% strsplit(" ")
-  search_tokens <- tail(input_tokens[[1]], 3)
-  search_string <- paste0("^", paste(search_tokens, collapse="_"), "_")
+input <- " for my own"
+input_tokens <- cleanWords(input) %>% strsplit(" ")
+search_tokens <- tail(input_tokens[[1]], 3)
+search_string <- paste0("^", paste(search_tokens, collapse="_"), "_")
 
-  if (length(search_tokens) == 3) {
-    ngrams_matched <- all_4grams[grep(search_string, all_4grams$ngram),]
-    ngrams_matched$qml <- ngrams_matched$freq / sum(ngrams_matched$freq)
-  } else if (length(search_tokens) == 2) {
-    ngrams_matched <- all_3grams[grep(search_string, all_3grams$ngram),]
-    ngrams_matched$qml <- ngrams_matched$freq / sum(ngrams_matched$freq)
-  } else {
-    ngrams_matched <- all_2grams[grep(search_string, all_2grams$ngram),]
-    ngrams_matched$qml <- ngrams_matched$freq / sum(ngrams_matched$freq)
+ngrams_matched <- data.table(ngram=character(), freq=numeric(), qml=numeric())
+if (length(search_tokens) == 3) {
+  ngrams_matched <- all_4grams[grep(search_string, all_4grams$ngram),]
+  ngrams_matched$qml <- ngrams_matched$freq / sum(ngrams_matched$freq)
+} else if (length(search_tokens) == 2) {
+  ngrams_matched <- all_3grams[grep(search_string, all_3grams$ngram),]
+  ngrams_matched$qml <- ngrams_matched$freq / sum(ngrams_matched$freq)
+} else {
+  ngrams_matched <- all_2grams[grep(search_string, all_2grams$ngram),]
+  ngrams_matched$qml <- ngrams_matched$freq / sum(ngrams_matched$freq)
+}
+
+pred <- matrix(data=NA, nrow=1, ncol=3)
+if (nrow(ngrams_matched) == 0) {
+  for (i in 1:3) {pred[i] <- NA}
+} else if (nrow(ngrams_matched) == 1) {
+  pred[1] <- strsplit(ngrams_matched$ngram, "_")[[1]][length(strsplit(ngrams_matched$ngram, "_")[[1]])]
+} else if (nrow(ngrams_matched) == 2) {
+  for (i in 1:2) {
+    pred[i] <- strsplit(ngrams_matched$ngram, "_")[[i]][length(strsplit(ngrams_matched$ngram, "_")[[i]])]
   }
-
-  pred <- matrix(data=NA, nrow=1, ncol=3)
-
+} else {
   for (i in 1:3) {
     pred[i] <- strsplit(ngrams_matched$ngram, "_")[[i]][length(strsplit(ngrams_matched$ngram, "_")[[i]])]
   }
+}
 
-  paste0(input, " (1) ", pred[1], " / (2) ", pred[2], " / (3) ", pred[3])
+
+# for (i in 1:3) {
+#   pred[i] <- strsplit(ngrams_matched$ngram, "_")[[i]][length(strsplit(ngrams_matched$ngram, "_")[[i]])]
+# }
+
+paste0(input, " (1) ", pred[1], " / (2) ", pred[2], " / (3) ", pred[3])
   

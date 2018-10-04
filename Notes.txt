@@ -1,0 +1,11 @@
+Questions:
+----------
+* Should I remove n-grams already found in higher order n-grams (eg remove "do I do" if "what do I do" existed)?
+* How can I speed up building the lists of ngrams?
+* 
+
+Suggestions:
+------------
+* Find an R profiler to hunt for bottlenecks.
+* Remove words found in 2+ grams from the unigrams (to prevent repeated words, eg I have a a)
+* 

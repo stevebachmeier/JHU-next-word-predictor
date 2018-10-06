@@ -1,0 +1,82 @@
+> Rprof(tmp <- tempfile())
+> nlpPredictor("Hey! How long will this")
+Hey! How long will this : 
+   [1]  be (S= 0.54 ) 
+   [2]  country (S= 0.51 ) 
+   [3]  is (S= 0.06 )> Rprof()
+> summaryRprof(tmp)
+$`by.self`
+                           self.time self.pct total.time total.pct
+"grep"                          1.80    82.57       1.80     82.57
+"stri_replace_first_regex"      0.14     6.42       0.14      6.42
+"%in%"                          0.06     2.75       0.06      2.75
+"[<-.data.table"                0.04     1.83       0.08      3.67
+"[.data.table"                  0.02     0.92       1.86     85.32
+"$<-"                           0.02     0.92       0.04      1.83
+"exists"                        0.02     0.92       0.02      0.92
+"forderv"                       0.02     0.92       0.02      0.92
+"make.codeBuf"                  0.02     0.92       0.02      0.92
+"mayCallBrowserList"            0.02     0.92       0.02      0.92
+"sys.function"                  0.02     0.92       0.02      0.92
+
+$by.total
+                           total.time total.pct self.time self.pct
+"nlpPredictor"                   2.18    100.00      0.00     0.00
+"eval"                           1.88     86.24      0.00     0.00
+"[.data.table"                   1.86     85.32      0.02     0.92
+"["                              1.86     85.32      0.00     0.00
+"grep"                           1.80     82.57      1.80    82.57
+"stri_replace_first_regex"       0.14      6.42      0.14     6.42
+"str_remove"                     0.14      6.42      0.00     0.00
+"str_replace"                    0.14      6.42      0.00     0.00
+"cmpfun"                         0.10      4.59      0.00     0.00
+"compiler:::tryCmpfun"           0.10      4.59      0.00     0.00
+"doTryCatch"                     0.10      4.59      0.00     0.00
+"tryCatch"                       0.10      4.59      0.00     0.00
+"tryCatchList"                   0.10      4.59      0.00     0.00
+"tryCatchOne"                    0.10      4.59      0.00     0.00
+"[<-.data.table"                 0.08      3.67      0.04     1.83
+"cmp"                            0.08      3.67      0.00     0.00
+"cmpCall"                        0.08      3.67      0.00     0.00
+"genCode"                        0.08      3.67      0.00     0.00
+"h"                              0.08      3.67      0.00     0.00
+"tryInline"                      0.08      3.67      0.00     0.00
+"%in%"                           0.06      2.75      0.06     2.75
+"[<-"                            0.06      2.75      0.00     0.00
+"cb$putconst"                    0.06      2.75      0.00     0.00
+"cmpCallArgs"                    0.06      2.75      0.00     0.00
+"cmpCallSymFun"                  0.06      2.75      0.00     0.00
+"$<-"                            0.04      1.83      0.02     0.92
+"cmpBuiltinArgs"                 0.04      1.83      0.00     0.00
+"cmpComplexAssign"               0.04      1.83      0.00     0.00
+"getInlineInfo"                  0.04      1.83      0.00     0.00
+"exists"                         0.02      0.92      0.02     0.92
+"forderv"                        0.02      0.92      0.02     0.92
+"make.codeBuf"                   0.02      0.92      0.02     0.92
+"mayCallBrowserList"             0.02      0.92      0.02     0.92
+"sys.function"                   0.02      0.92      0.02     0.92
+"$<-.data.table"                 0.02      0.92      0.00     0.00
+"%>%"                            0.02      0.92      0.00     0.00
+"cleanWords"                     0.02      0.92      0.00     0.00
+"cmpDispatch"                    0.02      0.92      0.00     0.00
+"cmpGetterCall"                  0.02      0.92      0.00     0.00
+"cmpGetterDispatch"              0.02      0.92      0.00     0.00
+"cmpPrim2"                       0.02      0.92      0.00     0.00
+"cmpSymbolAssign"                0.02      0.92      0.00     0.00
+"constantFold"                   0.02      0.92      0.00     0.00
+"constantFoldCall"               0.02      0.92      0.00     0.00
+"findCenvVar"                    0.02      0.92      0.00     0.00
+"forder"                         0.02      0.92      0.00     0.00
+"getFoldFun"                     0.02      0.92      0.00     0.00
+"isBaseVar"                      0.02      0.92      0.00     0.00
+"make.argContext"                0.02      0.92      0.00     0.00
+"match.call"                     0.02      0.92      0.00     0.00
+"mayCallBrowser"                 0.02      0.92      0.00     0.00
+"rm"                             0.02      0.92      0.00     0.00
+"tryGetterInline"                0.02      0.92      0.00     0.00
+
+$sample.interval
+[1] 0.02
+
+$sampling.time
+[1] 2.18

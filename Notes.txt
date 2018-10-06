@@ -1,11 +1,22 @@
 Questions:
 ----------
-* Should I remove n-grams already found in higher order n-grams (eg remove "do I do" if "what do I do" existed)?
-* How can I speed up building the lists of ngrams?
-* 
+[] Should I remove n-grams already found in higher order n-grams (eg remove "do I do" if "what do I do" existed)?
+[] How can I speed up building the lists of ngrams?
+[] 
 
 Suggestions:
 ------------
-* Find an R profiler to hunt for bottlenecks.
-* Remove words found in 2+ grams from the unigrams (to prevent repeated words, eg I have a a)
-* 
+[x] Find an R profiler to hunt for bottlenecks.
+[] Remove words found in 2+ grams from the unigrams (to prevent repeated words, eg I have a a)
+[x] try perl=T in grep()
+[o] try grep(fixed=T) to search for fixed strings instead of regular expressions
+	Figure out warnings. Why do ngrams_matched and preds have different lengths sometimes (ie backoff 2 and 3)
+[] Remove low-enough matches (maybe with freq <= 3?)
+
+Tried (nlpPredictor("Hey! How long will this"))
+------
+1. Original/BASELINE: 3.14s, bottleneck: grep (89.2%)
+2. grep(..., perl=T): 2.18s (-31%), bottlenecks: grep (82.6%)
+3. grep(..., perl=F, fixed=T): 1.68s (-46.5%), bottlenecks: grep (72.6%)
+	- There are warnings, though!
+4. 

@@ -11,7 +11,7 @@ Suggestions:
 [x] try perl=T in grep()
 [o] try grep(fixed=T) to search for fixed strings instead of regular expressions
 	Figure out warnings. Why do ngrams_matched and preds have different lengths sometimes (ie backoff 2 and 3)
-[] Remove low-enough matches (maybe with freq <= 3?)
+[x] Remove low-enough matches (maybe with freq <= 3?)
 [] Try subsetting data tables instead of grepping?
 
 Tried (nlpPredictor("Hey! How long will this"))
@@ -20,4 +20,5 @@ Tried (nlpPredictor("Hey! How long will this"))
 2. grep(..., perl=T): 2.18s (-31%), bottlenecks: grep (82.6%)
 3. grep(..., perl=F, fixed=T): 1.68s (-46.5%), bottlenecks: grep (72.6%)
 	- There are warnings, though!
-4. 
+4. #3 with n-grams >= 3: 0.34s (-89.2%), bottlenecks: data.table (41.2%, sys.call (23.5%)
+    - This gave different results - need to start considering accuracy!

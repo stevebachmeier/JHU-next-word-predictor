@@ -1,10 +1,10 @@
 # ==============================================================================
 # PROFILING
 # ==============================================================================
+input <- "Hey! How long will this"
 
 Rprof(tmp <- tempfile())
-nlpPredictor("Hey dawg what should i ")
-#nlpPredictor("Hey! How long will this")
+nlpPredictor(input)
 Rprof()
 summaryRprof(tmp)
 

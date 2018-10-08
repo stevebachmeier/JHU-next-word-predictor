@@ -16,7 +16,7 @@ all_4grams <- data.table(read.csv(file="data/all_4grams.txt",
 
 # ---- STUPID BACKOFF ----
 nlpPredictor <- function(input) {
-  input="Hey! How long will this"
+#  input="Hey! How long will this"
   alpha <- 0.4 # Stupid backoff factor
   
   ngrams_matched <- data.table(

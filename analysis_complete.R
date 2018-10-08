@@ -41,9 +41,9 @@ blogs_sample <- sample(x=blogs_raw, replace=F,
 # all_sample <- c(twitter_sample, news_sample, blogs_sample)
 
 all_sample <- c("What should I eat? Should I do?",
-                 "Should I go there? Where can I go?",
-                 "What should I say to her?",
-                 "Where should I put it?")
+                "Should I go there? Where can I go?",
+                "What should I say to her?",
+                "Where should I put it?")
 
 # all_sample <- c("I eat apples.",
 #                 "We eat apples!",
@@ -69,7 +69,7 @@ cleanWords <- function(x) {
 all_sample_clean <- cleanWords(all_sample)
 
 # ==============================================================================
-# EXPLORATORY DATA ANALYSIS
+# NLP PREP
 # ==============================================================================
 
 # ---- TOKENIZE ----

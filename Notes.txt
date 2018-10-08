@@ -12,6 +12,7 @@ Suggestions:
 [o] try grep(fixed=T) to search for fixed strings instead of regular expressions
 	Figure out warnings. Why do ngrams_matched and preds have different lengths sometimes (ie backoff 2 and 3)
 [] Remove low-enough matches (maybe with freq <= 3?)
+[] Try subsetting data tables instead of grepping?
 
 Tried (nlpPredictor("Hey! How long will this"))
 ------

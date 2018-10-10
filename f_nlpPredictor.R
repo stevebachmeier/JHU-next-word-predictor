@@ -5,6 +5,8 @@ library(data.table)
 library(stringr)
 
 # ---- LOAD FILES ----
+all_1grams_nostopwords <- data.table(read.csv(file="data/all_1grams_noStopwords.txt",
+                                              header=T, sep=",", stringsAsFactors=F))
 all_1grams <- data.table(read.csv(file="data/all_1grams.txt", 
                                   header=T, sep=",", stringsAsFactors=F))
 all_2grams <- data.table(read.csv(file="data/all_2grams.txt", 
@@ -16,7 +18,7 @@ all_4grams <- data.table(read.csv(file="data/all_4grams.txt",
 
 # ---- STUPID BACKOFF ----
 nlpPredictor <- function(input) {
-#  input="Hey! How long will this"
+  # input="Hey! How long will this"
   alpha <- 0.4 # Stupid backoff factor
   
   ngrams_matched <- data.table(
@@ -42,13 +44,22 @@ nlpPredictor <- function(input) {
   n <- length(search_tokens)
   
   if (n == 3) {
-    #    ngrams_matched <- all_4grams[grep(search_string, all_4grams$ngram, perl=T),]
+    #1 ngrams_matched <- all_4grams[grep(search_string, all_4grams$ngram),]
+    #2 ngrams_matched <- all_4grams[grep(search_string, all_4grams$ngram, perl=T),]
+    #5 ngrams_matched <- all_4grams[ngram %like% search_string]
+    #3 
     ngrams_matched <- all_4grams[grep(search_string, all_4grams$ngram, fixed=T),]
   } else if (n == 2) {
-    #    ngrams_matched <- all_3grams[grep(search_string, all_3grams$ngram, perl=T),]
+    #1 ngrams_matched <- all_3grams[grep(search_string, all_3grams$ngram),]
+    #2 ngrams_matched <- all_3grams[grep(search_string, all_3grams$ngram, perl=T),]
+    #5 ngrams_matched <- all_3grams[ngram %like% search_string]
+    #3 
     ngrams_matched <- all_3grams[grep(search_string, all_3grams$ngram, fixed=T),]
   } else if (n == 1) {
-    # ngrams_matched <- all_2grams[grep(search_string, all_2grams$ngram, perl=T),]
+    #1 ngrams_matched <- all_2grams[grep(search_string, all_2grams$ngram),]
+    #2 ngrams_matched <- all_2grams[grep(search_string, all_2grams$ngram, perl=T),]
+    #5 ngrams_matched <- all_2grams[ngram %like% search_string]
+    #3 
     ngrams_matched <- all_2grams[grep(search_string, all_2grams$ngram, fixed=T),]
   } else {
     ngrams_matched <- all_1grams
@@ -65,10 +76,16 @@ nlpPredictor <- function(input) {
   n_bo1 <- length(search_tokens_bo1)
   
   if ((n_bo1 != n) & (n_bo1 == 2)) {
-    # ngrams_matched_bo1 <- all_3grams[grep(search_string_bo1, all_3grams$ngram, perl=T),]
+    #1 ngrams_matched_bo1 <- all_3grams[grep(search_string_bo1, all_3grams$ngram),]
+    #2 ngrams_matched_bo1 <- all_3grams[grep(search_string_bo1, all_3grams$ngram, perl=T),]
+    #5 ngrams_matched_bo1 <- all_3grams[ngram %like% search_string_bo1]
+    #3 
     ngrams_matched_bo1 <- all_3grams[grep(search_string_bo1, all_3grams$ngram, fixed=T),]
   } else if ((n_bo1 != n) & (n_bo1 == 1)) {
-    # ngrams_matched_bo1 <- all_2grams[grep(search_string_bo1, all_2grams$ngram, perl=T),]
+    #1 ngrams_matched_bo1 <- all_2grams[grep(search_string_bo1, all_2grams$ngram),]
+    #2 ngrams_matched_bo1 <- all_2grams[grep(search_string_bo1, all_2grams$ngram, perl=T),]
+    #5 ngrams_matched_bo1 <- all_2grams[ngram %like% search_string_bo1]
+    #3 
     ngrams_matched_bo1 <- all_2grams[grep(search_string_bo1, all_2grams$ngram, fixed=T),]
   } else if (n_bo1 != n) {
     ngrams_matched_bo1 <- all_1grams
@@ -85,7 +102,10 @@ nlpPredictor <- function(input) {
   n_bo2 <- length(search_tokens_bo2)
   
   if ((n_bo2 != n_bo1) & (n_bo2 == 1)) {
-    # ngrams_matched_bo2 <- all_2grams[grep(search_string_bo2, all_2grams$ngram, perl=T),]
+    #1 ngrams_matched_bo2 <- all_2grams[grep(search_string_bo2, all_2grams$ngram),]
+    #2 ngrams_matched_bo2 <- all_2grams[grep(search_string_bo2, all_2grams$ngram, perl=T),]
+    #5 ngrams_matched_bo2 <- all_2grams[ngram %like% search_string_bo2]
+    #3 
     ngrams_matched_bo2 <- all_2grams[grep(search_string_bo2, all_2grams$ngram, fixed=T),]
   } else if (n_bo2 != n_bo1) {
     ngrams_matched_bo2 <- all_1grams

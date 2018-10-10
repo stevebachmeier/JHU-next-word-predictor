@@ -1,3 +1,6 @@
+library(proftools)
+library(Rgraphviz)
+
 # ==============================================================================
 # PROFILING
 # ==============================================================================
@@ -8,7 +11,6 @@ nlpPredictor(input)
 Rprof()
 summaryRprof(tmp)
 
-library(proftools)
-library(Rgraphviz)
+plot.new()
 dev.new()
 plotProfileCallGraph(readProfileData(tmp), score = "total")

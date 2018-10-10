@@ -1,0 +1,52 @@
+> Rprof(tmp <- tempfile())
+> nlpPredictor(input)
+Hey! How long will this : 
+   [1]  is (S= 0.19 ) 
+   [2]  be (S= 0.12 ) 
+   [3]  help (S= 0.09 )> Rprof()
+> summaryRprof(tmp)
+$`by.self`
+                           self.time self.pct total.time total.pct
+"grepl"                         0.18       45       0.18        45
+"vapply"                        0.08       20       0.08        20
+"stri_replace_first_regex"      0.04       10       0.12        30
+"which"                         0.04       10       0.04        10
+"[.data.table"                  0.02        5       0.26        65
+"%in%"                          0.02        5       0.02         5
+"paste0"                        0.02        5       0.02         5
+
+$by.total
+                           total.time total.pct self.time self.pct
+"nlpPredictor"                   0.40       100      0.00        0
+"[.data.table"                   0.26        65      0.02        5
+"["                              0.26        65      0.00        0
+"eval"                           0.22        55      0.00        0
+"grepl"                          0.18        45      0.18       45
+"%like%"                         0.18        45      0.00        0
+"stri_replace_first_regex"       0.12        30      0.04       10
+"str_remove"                     0.12        30      0.00        0
+"str_replace"                    0.12        30      0.00        0
+"vapply"                         0.08        20      0.08       20
+"fix_replacement"                0.08        20      0.00        0
+"which"                          0.04        10      0.04       10
+"[<-"                            0.04        10      0.00        0
+"[<-.data.table"                 0.04        10      0.00        0
+"%in%"                           0.02         5      0.02        5
+"paste0"                         0.02         5      0.02        5
+"%>%"                            0.02         5      0.00        0
+"_fseq"                          0.02         5      0.00        0
+"cleanWords"                     0.02         5      0.00        0
+"freduce"                        0.02         5      0.00        0
+"FUN"                            0.02         5      0.00        0
+"function_list[[i]]"             0.02         5      0.00        0
+"lapply"                         0.02         5      0.00        0
+"paste"                          0.02         5      0.00        0
+"replace_contraction"            0.02         5      0.00        0
+"unlist"                         0.02         5      0.00        0
+"withVisible"                    0.02         5      0.00        0
+
+$sample.interval
+[1] 0.02
+
+$sampling.time
+[1] 0.4

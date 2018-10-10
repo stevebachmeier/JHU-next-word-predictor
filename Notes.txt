@@ -12,13 +12,21 @@ Suggestions:
 [o] try grep(fixed=T) to search for fixed strings instead of regular expressions
 	Figure out warnings. Why do ngrams_matched and preds have different lengths sometimes (ie backoff 2 and 3)
 [x] Remove low-enough matches (maybe with freq <= 3?)
-[] Try subsetting data tables instead of grepping?
+[x] Try subsetting data tables instead of grepping?
+[] Filter out swear words
 
 Tried (nlpPredictor("Hey! How long will this"))
 ------
 1. Original/BASELINE: 3.14s, bottleneck: grep (89.2%)
 2. grep(..., perl=T): 2.18s (-31%), bottlenecks: grep (82.6%)
 3. grep(..., perl=F, fixed=T): 1.68s (-46.5%), bottlenecks: grep (72.6%)
-	- There are warnings, though!
+	* There are warnings, though!
 4. #3 with n-grams >= 3: 0.34s (-89.2%), bottlenecks: data.table (41.2%, sys.call (23.5%)
-    - This gave different results - need to start considering accuracy!
+    * This gave different results - need to start considering accuracy!
+	* The bottlenecks appear to be changing every time I re-run the same test.
+		- This may mean that there's no real single bottleneck?
+5. ngrams_matched <- all_4grams[grep(search_string, all_4grams$ngram, perl=T),] --> ngrams_matched <- all_4grams[ngram %like% search_string]:
+	0.4s - slightly slower, about the same time on repeated runs
+	bottlenecks: changes depending on run: grepl/alloc.col, grepl/unique
+	* go back to grep approach
+6.

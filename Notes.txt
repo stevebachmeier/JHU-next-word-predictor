@@ -9,24 +9,37 @@ Suggestions:
 [x] Find an R profiler to hunt for bottlenecks.
 [] Remove words found in 2+ grams from the unigrams (to prevent repeated words, eg I have a a)
 [x] try perl=T in grep()
-[o] try grep(fixed=T) to search for fixed strings instead of regular expressions
+[x] try grep(fixed=T) to search for fixed strings instead of regular expressions
 	Figure out warnings. Why do ngrams_matched and preds have different lengths sometimes (ie backoff 2 and 3)
+	- The reason: fixed=T finds extra things, eg when searching for "is_" it also includes "this_"
 [x] Remove low-enough matches (maybe with freq <= 3?)
 [x] Try subsetting data tables instead of grepping?
 [] Filter out swear words
+[] BUG: applying S-values to non-zero predictions (preds_bo2[preds_bo2$pred %in% ngrams_matched_bo2$pred,]$S <- ngrams_matched_bo2$S) 
+	is not working properly
 
 Tried (nlpPredictor("Hey! How long will this"))
 ------
 1. Original/BASELINE: 3.14s, bottleneck: grep (89.2%)
 2. grep(..., perl=T): 2.18s (-31%), bottlenecks: grep (82.6%)
-3. grep(..., perl=F, fixed=T): 1.68s (-46.5%), bottlenecks: grep (72.6%)
-	* There are warnings, though!
-4. #3 with n-grams >= 3: 0.34s (-89.2%), bottlenecks: data.table (41.2%, sys.call (23.5%)
-    * This gave different results - need to start considering accuracy!
-	* The bottlenecks appear to be changing every time I re-run the same test.
-		- This may mean that there's no real single bottleneck?
+3. grep(..., perl=F, fixed=T): 
+	* 1.68s (-46.5%)
+	* bottlenecks: grep (72.6%)
+		- There are warnings, though!
+4. #3 with n-grams >= 3
+	* 0.34s (-89.2%)
+	* bottlenecks: data.table (41.2%, sys.call (23.5%)
+		- This gave different results - need to start considering accuracy!
+		- The bottlenecks appear to be changing every time I re-run the same test.
+			- This may mean that there's no real single bottleneck?
 5. ngrams_matched <- all_4grams[grep(search_string, all_4grams$ngram, perl=T),] --> ngrams_matched <- all_4grams[ngram %like% search_string]:
 	0.4s - slightly slower, about the same time on repeated runs
 	bottlenecks: changes depending on run: grepl/alloc.col, grepl/unique
 	* go back to grep approach
-6.
+6. Append '*' to beginning of n-grams to signify start of ngram (to fix problem with, eg, searching for 'is_time_' matching 'this_time_' with	
+	grep fixed=T
+	* 0.22s (-93%)
+	* bottlenecks: grep, str_replace_first_regex
+		- NOTE: There is a bug here with creating preds data tables 
+		(eg preds_bo2[preds_bo2$pred %in% ngrams_matched_bo2$pred,]$S <- ngrams_matched_bo2$S): doesn't properly order S values
+	

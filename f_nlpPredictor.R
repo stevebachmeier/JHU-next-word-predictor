@@ -5,8 +5,8 @@ library(data.table)
 library(stringr)
 
 # ---- LOAD FILES ----
-all_1grams_nostopwords <- data.table(read.csv(file="data/all_1grams_noStopwords.txt",
-                                              header=T, sep=",", stringsAsFactors=F))
+# all_1grams_nostopwords <- data.table(read.csv(file="data/all_1grams_noStopwords.txt",
+#                                               header=T, sep=",", stringsAsFactors=F))
 all_1grams <- data.table(read.csv(file="data/all_1grams.txt", 
                                   header=T, sep=",", stringsAsFactors=F))
 all_2grams <- data.table(read.csv(file="data/all_2grams.txt", 
@@ -19,6 +19,7 @@ all_4grams <- data.table(read.csv(file="data/all_4grams.txt",
 # ---- STUPID BACKOFF ----
 nlpPredictor <- function(input) {
   # input="Hey! How long will this"
+  # input="what time is"
   alpha <- 0.4 # Stupid backoff factor
   
   ngrams_matched <- data.table(
@@ -39,8 +40,9 @@ nlpPredictor <- function(input) {
   source("f_cleanWords.R")
   input_tokens <- cleanWords(input) %>% strsplit(" ")
   search_tokens <- tail(input_tokens[[1]], 3)
-  #  search_string <- paste0("^", paste(search_tokens, collapse="_"), "_")
-  search_string <- paste0(paste(search_tokens, collapse="_"), "_")
+  # search_string <- paste0("^", paste(search_tokens, collapse="_"), "_")
+  # search_string <- paste0(paste(search_tokens, collapse="_"), "_")
+  search_string <- paste0("*", paste(search_tokens, collapse="_"), "_")
   n <- length(search_tokens)
   
   if (n == 3) {
@@ -65,14 +67,17 @@ nlpPredictor <- function(input) {
     ngrams_matched <- all_1grams
   }
   
-  ngrams_matched$pred <- str_remove(ngrams_matched$ngram, pattern=search_string)
+  # ngrams_matched$pred <- str_remove(ngrams_matched$ngram, pattern=search_string)
+  ngrams_matched$pred <- str_remove(ngrams_matched$ngram, 
+                                    pattern=paste0("\\", search_string))
   ngrams_matched$S <- ngrams_matched$freq / sum(ngrams_matched$freq)
   preds[preds$pred %in% ngrams_matched$pred,]$S <- ngrams_matched$S
   
   # Stupid backoff #1
   search_tokens_bo1 <- search_tokens[-1]
   # search_string_bo1 <- paste0("^", paste(search_tokens_bo1, collapse="_"), "_")
-  search_string_bo1 <- paste0(paste(search_tokens_bo1, collapse="_"), "_")
+  # search_string_bo1 <- paste0(paste(search_tokens_bo1, collapse="_"), "_")
+  search_string_bo1 <- paste0("*", paste(search_tokens_bo1, collapse="_"), "_")
   n_bo1 <- length(search_tokens_bo1)
   
   if ((n_bo1 != n) & (n_bo1 == 2)) {
@@ -91,14 +96,17 @@ nlpPredictor <- function(input) {
     ngrams_matched_bo1 <- all_1grams
   }
   
-  ngrams_matched_bo1$pred <- str_remove(ngrams_matched_bo1$ngram, pattern=search_string_bo1)
+  # ngrams_matched_bo1$pred <- str_remove(ngrams_matched_bo1$ngram, pattern=search_string_bo1)
+  ngrams_matched_bo1$pred <- str_remove(ngrams_matched_bo1$ngram,
+                                        pattern=paste0("\\", search_string_bo1))
   ngrams_matched_bo1$S <- alpha^1 * (ngrams_matched_bo1$freq / sum(ngrams_matched_bo1$freq))
   preds_bo1[preds_bo1$pred %in% ngrams_matched_bo1$pred,]$S <- ngrams_matched_bo1$S
   
   # Stupid backoff #2
   search_tokens_bo2 <- search_tokens_bo1[-1]
   # search_string_bo2 <- paste0("^", paste(search_tokens_bo2, collapse="_"), "_")
-  search_string_bo2 <- paste0(paste(search_tokens_bo2, collapse="_"), "_")
+  # search_string_bo2 <- paste0(paste(search_tokens_bo2, collapse="_"), "_")
+  search_string_bo2 <- paste0("*", paste(search_tokens_bo2, collapse="_"), "_")
   n_bo2 <- length(search_tokens_bo2)
   
   if ((n_bo2 != n_bo1) & (n_bo2 == 1)) {
@@ -111,7 +119,9 @@ nlpPredictor <- function(input) {
     ngrams_matched_bo2 <- all_1grams
   }
   
-  ngrams_matched_bo2$pred <- str_remove(ngrams_matched_bo2$ngram, pattern=search_string_bo2)
+  # ngrams_matched_bo2$pred <- str_remove(ngrams_matched_bo2$ngram, pattern=search_string_bo2)
+  ngrams_matched_bo2$pred <- str_remove(ngrams_matched_bo2$ngram,
+                                        pattern=paste0("\\", search_string_bo2))
   ngrams_matched_bo2$S <- alpha^2 * (ngrams_matched_bo2$freq / sum(ngrams_matched_bo2$freq))
   preds_bo2[preds_bo2$pred %in% ngrams_matched_bo2$pred,]$S <- ngrams_matched_bo2$S
   

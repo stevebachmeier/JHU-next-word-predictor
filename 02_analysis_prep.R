@@ -31,16 +31,19 @@ all_2grams <- data.table(data.frame(topfeatures(
   dfm(all_tokens, ngrams=2, verbose=F), n=Inf)), keep.rownames=T)
 colnames(all_2grams) <- c("ngram","freq")
 all_2grams <- all_2grams[freq>=min_freq]
+all_2grams$ngram <- paste0("*",all_2grams$ngram)
 
 all_3grams <- data.table(data.frame(topfeatures(
   dfm(all_tokens, ngrams=3, verbose=F), n=Inf)), keep.rownames=T)
 colnames(all_3grams) <- c("ngram","freq")
 all_3grams <- all_3grams[freq>=min_freq]
+all_3grams$ngram <- paste0("*",all_3grams$ngram)
 
 all_4grams <- data.table(data.frame(topfeatures(
   dfm(all_tokens, ngrams=4, verbose=F), n=Inf)), keep.rownames=T)
 colnames(all_4grams) <- c("ngram","freq")
 all_4grams <- all_4grams[freq>=min_freq]
+all_4grams$ngram <- paste0("*",all_4grams$ngram)
 
 # Write out files
 write.table(x=all_1grams, file="data/all_1grams.txt",

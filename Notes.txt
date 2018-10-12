@@ -15,7 +15,7 @@ Suggestions:
 [x] Remove low-enough matches (maybe with freq <= 3?)
 [x] Try subsetting data tables instead of grepping?
 [] Filter out swear words
-[] BUG: applying S-values to non-zero predictions (preds_bo2[preds_bo2$pred %in% ngrams_matched_bo2$pred,]$S <- ngrams_matched_bo2$S) 
+[x] BUG 01: applying S-values to non-zero predictions (preds_bo2[preds_bo2$pred %in% ngrams_matched_bo2$pred,]$S <- ngrams_matched_bo2$S) 
 	is not working properly
 
 Tried (nlpPredictor("Hey! How long will this"))
@@ -40,6 +40,7 @@ Tried (nlpPredictor("Hey! How long will this"))
 	grep fixed=T
 	* 0.22s (-93%)
 	* bottlenecks: grep, str_replace_first_regex
-		- NOTE: There is a bug here with creating preds data tables 
+		- NOTE: There is a bug (bug 01) here with creating preds data tables 
 		(eg preds_bo2[preds_bo2$pred %in% ngrams_matched_bo2$pred,]$S <- ngrams_matched_bo2$S): doesn't properly order S values
-	
+7. Fixed Bug01: Merged preds with ngrams_matched instead of just using %in%.
+	* 0.34s (-89.2%) - slower than %in% but still pretty fast.

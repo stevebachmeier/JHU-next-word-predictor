@@ -17,6 +17,8 @@ Suggestions:
 [] Filter out swear words
 [x] BUG 01: applying S-values to non-zero predictions (preds_bo2[preds_bo2$pred %in% ngrams_matched_bo2$pred,]$S <- ngrams_matched_bo2$S) 
 	is not working properly
+[x] BUG 02: Cannot merge preds and ngrams_matched if ngrams_matched remains empty (ie if user words <3)
+[]
 
 Tried (nlpPredictor("Hey! How long will this"))
 ------
@@ -44,3 +46,7 @@ Tried (nlpPredictor("Hey! How long will this"))
 		(eg preds_bo2[preds_bo2$pred %in% ngrams_matched_bo2$pred,]$S <- ngrams_matched_bo2$S): doesn't properly order S values
 7. Fixed Bug01: Merged preds with ngrams_matched instead of just using %in%.
 	* 0.34s (-89.2%) - slower than %in% but still pretty fast.
+	* bottlenecks: unique.default, bmerge
+8. Fixed Bug02: Added if statements when building pred to check if nrow(ngrams_matched)=0
+	* 0.42s - a bit slower.
+	* bottlenecks: unique.default, bmerge

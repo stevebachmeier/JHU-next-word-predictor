@@ -19,8 +19,9 @@ all_4grams <- data.table(read.csv(file="data/all_4grams.txt",
 # ---- STUPID BACKOFF ----
 nlpPredictor <- function(input) {
   # input="Hey! How long will this" # profiling
-  #input="what time is" # merging bug
+  # input="what time is" # merging bug
   # input="this way we" # check for sub-grepping
+  # input="what time"
   alpha <- 0.4 # Stupid backoff factor
   
   ngrams_matched <- data.table(
@@ -104,10 +105,12 @@ nlpPredictor <- function(input) {
   ngrams_matched_bo1$pred <- str_remove(ngrams_matched_bo1$ngram,
                                         pattern=paste0("\\", search_string_bo1))
   ngrams_matched_bo1$S <- alpha^1 * (ngrams_matched_bo1$freq / sum(ngrams_matched_bo1$freq))
-  preds_bo1 <- merge(x=preds_bo1, y=ngrams_matched_bo1[,3:4], by="pred", all.x=T, sort=F)
-  preds_bo1[, S.x:=NULL]
-  colnames(preds_bo1)[2] <- c("S")
-  preds_bo1$S[is.na(preds_bo1$S)] <- 0
+  if (nrow(ngrams_matched_bo1) != 0) {
+    preds_bo1 <- merge(x=preds_bo1, y=ngrams_matched_bo1[,3:4], by="pred", all.x=T, sort=F)
+    preds_bo1[, S.x:=NULL]
+    colnames(preds_bo1)[2] <- c("S")
+    preds_bo1$S[is.na(preds_bo1$S)] <- 0
+  }
   
   # Stupid backoff #2
   search_tokens_bo2 <- search_tokens_bo1[-1]
@@ -130,10 +133,12 @@ nlpPredictor <- function(input) {
   ngrams_matched_bo2$pred <- str_remove(ngrams_matched_bo2$ngram,
                                         pattern=paste0("\\", search_string_bo2))
   ngrams_matched_bo2$S <- alpha^2 * (ngrams_matched_bo2$freq / sum(ngrams_matched_bo2$freq))
-  preds_bo2 <- merge(x=preds_bo2, y=ngrams_matched_bo2[,3:4], by="pred", all.x=T, sort=F)
-  preds_bo2[, S.x:=NULL]
-  colnames(preds_bo2)[2] <- c("S")
-  preds_bo2$S[is.na(preds_bo2$S)] <- 0
+  if (nrow(ngrams_matched_bo2) != 0) {
+    preds_bo2 <- merge(x=preds_bo2, y=ngrams_matched_bo2[,3:4], by="pred", all.x=T, sort=F)
+    preds_bo2[, S.x:=NULL]
+    colnames(preds_bo2)[2] <- c("S")
+    preds_bo2$S[is.na(preds_bo2$S)] <- 0
+  }
   
   # Stupid backoff #3
   search_tokens_bo3 <- search_tokens_bo2[-1]
@@ -146,10 +151,12 @@ nlpPredictor <- function(input) {
   
   ngrams_matched_bo3$pred <- str_remove(ngrams_matched_bo3$ngram, pattern=search_string_bo3)
   ngrams_matched_bo3$S <- alpha^3 * (ngrams_matched_bo3$freq / sum(ngrams_matched_bo3$freq))
-  preds_bo3 <- merge(x=preds_bo3, y=ngrams_matched_bo3[,3:4], by="pred", all.x=T, sort=F)
-  preds_bo3[, S.x:=NULL]
-  colnames(preds_bo3)[2] <- c("S")
-  preds_bo3$S[is.na(preds_bo3$S)] <- 0
+  if (nrow(ngrams_matched_bo3) != 0) {
+    preds_bo3 <- merge(x=preds_bo3, y=ngrams_matched_bo3[,3:4], by="pred", all.x=T, sort=F)
+    preds_bo3[, S.x:=NULL]
+    colnames(preds_bo3)[2] <- c("S")
+    preds_bo3$S[is.na(preds_bo3$S)] <- 0
+  }
   
   # Combine predictions
   predictions <- data.table(word=preds$pred, S_0=preds$S, S_bo1=preds_bo1$S, 
@@ -161,4 +168,5 @@ nlpPredictor <- function(input) {
             "  [1] ", predictions[1]$word, "(S=",round(predictions[1]$S, 2),")", "\n", 
             "  [2] ", predictions[2]$word, "(S=",round(predictions[2]$S, 2),")", "\n",
             "  [3] ", predictions[3]$word, "(S=",round(predictions[3]$S, 2),")"))
+  
 }

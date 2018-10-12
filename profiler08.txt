@@ -1,0 +1,88 @@
+> Rprof(tmp <- tempfile())
+> nlpPredictor(input)
+Read 15 items
+Hey! How long will this : 
+   [1]  be (S= 0.19 ) 
+   [2]  help (S= 0.12 ) 
+   [3]  is (S= 0.11 )> Rprof()
+> summaryRprof(tmp)
+$`by.self`
+                           self.time self.pct total.time total.pct
+"bmerge"                        0.08    18.18       0.08     18.18
+"forderv"                       0.08    18.18       0.08     18.18
+"unique.default"                0.08    18.18       0.08     18.18
+"grep"                          0.04     9.09       0.04      9.09
+"stri_replace_first_regex"      0.04     9.09       0.04      9.09
+"$"                             0.02     4.55       0.02      4.55
+"as.list"                       0.02     4.55       0.02      4.55
+"cb$patchlabels"                0.02     4.55       0.02      4.55
+"cb$putcode"                    0.02     4.55       0.02      4.55
+"exists"                        0.02     4.55       0.02      4.55
+"removePunctuation"             0.02     4.55       0.02      4.55
+
+$by.total
+                           total.time total.pct self.time self.pct
+"nlpPredictor"                   0.44    100.00      0.00     0.00
+"["                              0.20     45.45      0.00     0.00
+"[.data.table"                   0.20     45.45      0.00     0.00
+"merge"                          0.14     31.82      0.00     0.00
+"merge.data.table"               0.14     31.82      0.00     0.00
+"cmpfun"                         0.10     22.73      0.00     0.00
+"compiler:::tryCmpfun"           0.10     22.73      0.00     0.00
+"doTryCatch"                     0.10     22.73      0.00     0.00
+"tryCatch"                       0.10     22.73      0.00     0.00
+"tryCatchList"                   0.10     22.73      0.00     0.00
+"tryCatchOne"                    0.10     22.73      0.00     0.00
+"bmerge"                         0.08     18.18      0.08    18.18
+"forderv"                        0.08     18.18      0.08    18.18
+"unique.default"                 0.08     18.18      0.08    18.18
+"$<-"                            0.08     18.18      0.00     0.00
+"$<-.data.table"                 0.08     18.18      0.00     0.00
+"[<-.data.table"                 0.08     18.18      0.00     0.00
+"cmp"                            0.08     18.18      0.00     0.00
+"cmpCall"                        0.08     18.18      0.00     0.00
+"eval"                           0.08     18.18      0.00     0.00
+"genCode"                        0.08     18.18      0.00     0.00
+"h"                              0.08     18.18      0.00     0.00
+"setdiff"                        0.08     18.18      0.00     0.00
+"tryInline"                      0.08     18.18      0.00     0.00
+"unique"                         0.08     18.18      0.00     0.00
+"grep"                           0.04      9.09      0.04     9.09
+"stri_replace_first_regex"       0.04      9.09      0.04     9.09
+"cb$putconst"                    0.04      9.09      0.00     0.00
+"cmpCallArgs"                    0.04      9.09      0.00     0.00
+"cmpCallSymFun"                  0.04      9.09      0.00     0.00
+"cmpSymbolAssign"                0.04      9.09      0.00     0.00
+"findCenvVar"                    0.04      9.09      0.00     0.00
+"getInlineInfo"                  0.04      9.09      0.00     0.00
+"setorder"                       0.04      9.09      0.00     0.00
+"setorderv"                      0.04      9.09      0.00     0.00
+"str_remove"                     0.04      9.09      0.00     0.00
+"str_replace"                    0.04      9.09      0.00     0.00
+"$"                              0.02      4.55      0.02     4.55
+"as.list"                        0.02      4.55      0.02     4.55
+"cb$patchlabels"                 0.02      4.55      0.02     4.55
+"cb$putcode"                     0.02      4.55      0.02     4.55
+"exists"                         0.02      4.55      0.02     4.55
+"removePunctuation"              0.02      4.55      0.02     4.55
+"%>%"                            0.02      4.55      0.00     0.00
+"_fseq"                          0.02      4.55      0.00     0.00
+"cleanWords"                     0.02      4.55      0.00     0.00
+"cmpComplexAssign"               0.02      4.55      0.00     0.00
+"codeBufCode"                    0.02      4.55      0.00     0.00
+"findLocalsList"                 0.02      4.55      0.00     0.00
+"findLocalsList1"                0.02      4.55      0.00     0.00
+"forder"                         0.02      4.55      0.00     0.00
+"freduce"                        0.02      4.55      0.00     0.00
+"FUN"                            0.02      4.55      0.00     0.00
+"function_list[[i]]"             0.02      4.55      0.00     0.00
+"funEnv"                         0.02      4.55      0.00     0.00
+"lapply"                         0.02      4.55      0.00     0.00
+"make.functionContext"           0.02      4.55      0.00     0.00
+"withVisible"                    0.02      4.55      0.00     0.00
+
+$sample.interval
+[1] 0.02
+
+$sampling.time
+[1] 0.44

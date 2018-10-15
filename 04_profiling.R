@@ -4,6 +4,8 @@ library(Rgraphviz)
 # ==============================================================================
 # PROFILING
 # ==============================================================================
+source("f_nlpPredictor.R")
+
 input <- "Hey! How long will this"
 
 Rprof(tmp <- tempfile())

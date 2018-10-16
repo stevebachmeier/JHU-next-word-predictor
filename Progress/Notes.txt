@@ -55,3 +55,5 @@ Tried (nlpPredictor("Hey! How long will this"))
 8. Fixed Bug02: Added if statements when building pred to check if nrow(ngrams_matched)=0
 	* 0.42s - a bit slower.
 	* bottlenecks: unique.default, bmerge
+9. Added another n-gram and backoff.
+	* 0.28s - faster for some reason

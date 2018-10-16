@@ -40,9 +40,15 @@ barplot(height=all_4grams$freq[1:20], names.arg=all_4grams$ngram[1:20],
 mtext("Top 20 4-grams", side=3, line=-2, outer=T, cex=1)
 
 # 5-grams
-plot.new()
 dev.new()
-par(mfrow=c(1,1), mar=c(10,4,4,0))
+par(mfrow=c(1,1), mar=c(9,4,4,0))
 barplot(height=all_5grams$freq[1:20], names.arg=all_5grams$ngram[1:20],
         horiz=F, las=2, ylab="Frequency", cex.axis=0.8, cex.names=0.8)
 mtext("Top 20 5-grams", side=3, line=-2, outer=T, cex=1)
+
+# 6-grams
+dev.new()
+par(mfrow=c(1,1), mar=c(15,4,4,0))
+barplot(height=all_6grams$freq[1:20], names.arg=all_6grams$ngram[1:20],
+        horiz=F, las=2, ylab="Frequency", cex.axis=0.8, cex.names=0.8)
+mtext("Top 20 6-grams", side=3, line=-2, outer=T, cex=1)

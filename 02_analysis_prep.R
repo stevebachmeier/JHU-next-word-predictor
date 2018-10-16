@@ -51,6 +51,12 @@ colnames(all_5grams) <- c("ngram","freq")
 all_5grams <- all_5grams[freq>=min_freq]
 all_5grams$ngram <- paste0("*",all_5grams$ngram)
 
+all_6grams <- data.table(data.frame(topfeatures(
+  dfm(all_tokens, ngrams=6, verbose=F), n=Inf)), keep.rownames=T)
+colnames(all_6grams) <- c("ngram","freq")
+all_6grams <- all_6grams[freq>=min_freq]
+all_6grams$ngram <- paste0("*",all_6grams$ngram)
+
 # Write out files
 write.table(x=all_1grams, file="data/all_1grams.txt",
             sep=",", row.names=F, col.names=T, quote=F)
@@ -63,4 +69,6 @@ write.table(x=all_3grams, file="data/all_3grams.txt",
 write.table(x=all_4grams, file="data/all_4grams.txt",
             sep=",", row.names=F, col.names=T, quote=F)
 write.table(x=all_5grams, file="data/all_5grams.txt",
+            sep=",", row.names=F, col.names=T, quote=F)
+write.table(x=all_6grams, file="data/all_6grams.txt",
             sep=",", row.names=F, col.names=T, quote=F)

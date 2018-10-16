@@ -1,0 +1,61 @@
+> Rprof(tmp <- tempfile())
+> nlpPredictor(input)
+Read 15 items
+Hey! How long will this : 
+   [1]  be (S= 0.07 ) 
+   [2]  help (S= 0.05 ) 
+   [3]  is (S= 0.05 )> Rprof()
+> summaryRprof(tmp)
+$`by.self`
+                           self.time self.pct total.time total.pct
+"[[.data.frame"                 0.10    35.71       0.10     35.71
+"bmerge"                        0.04    14.29       0.04     14.29
+"forderv"                       0.04    14.29       0.04     14.29
+"grep"                          0.04    14.29       0.04     14.29
+"setattr"                       0.02     7.14       0.02      7.14
+"stri_replace_first_regex"      0.02     7.14       0.02      7.14
+"substring"                     0.02     7.14       0.02      7.14
+
+$by.total
+                           total.time total.pct self.time self.pct
+"nlpPredictor"                   0.28    100.00      0.00     0.00
+"["                              0.24     85.71      0.00     0.00
+"[.data.table"                   0.24     85.71      0.00     0.00
+"[[.data.frame"                  0.10     35.71      0.10    35.71
+"[["                             0.10     35.71      0.00     0.00
+"merge"                          0.10     35.71      0.00     0.00
+"merge.data.table"               0.10     35.71      0.00     0.00
+"eval"                           0.06     21.43      0.00     0.00
+"bmerge"                         0.04     14.29      0.04    14.29
+"forderv"                        0.04     14.29      0.04    14.29
+"grep"                           0.04     14.29      0.04    14.29
+"setattr"                        0.02      7.14      0.02     7.14
+"stri_replace_first_regex"       0.02      7.14      0.02     7.14
+"substring"                      0.02      7.14      0.02     7.14
+"%>%"                            0.02      7.14      0.00     0.00
+"%in%"                           0.02      7.14      0.00     0.00
+"_fseq"                          0.02      7.14      0.00     0.00
+"as.list"                        0.02      7.14      0.00     0.00
+"as.list.data.table"             0.02      7.14      0.00     0.00
+"cleanWords"                     0.02      7.14      0.00     0.00
+"freduce"                        0.02      7.14      0.00     0.00
+"FUN"                            0.02      7.14      0.00     0.00
+"function_list[[i]]"             0.02      7.14      0.00     0.00
+"lapply"                         0.02      7.14      0.00     0.00
+"paste"                          0.02      7.14      0.00     0.00
+"paste0"                         0.02      7.14      0.00     0.00
+"replace_contraction"            0.02      7.14      0.00     0.00
+"setorder"                       0.02      7.14      0.00     0.00
+"setorderv"                      0.02      7.14      0.00     0.00
+"str_remove"                     0.02      7.14      0.00     0.00
+"str_replace"                    0.02      7.14      0.00     0.00
+"unlist"                         0.02      7.14      0.00     0.00
+"vapply"                         0.02      7.14      0.00     0.00
+"vapply_1c"                      0.02      7.14      0.00     0.00
+"withVisible"                    0.02      7.14      0.00     0.00
+
+$sample.interval
+[1] 0.02
+
+$sampling.time
+[1] 0.28

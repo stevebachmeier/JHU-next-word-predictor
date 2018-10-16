@@ -51,6 +51,6 @@ all_sample_clean <- cleanWords(all_sample)
 write.table(x=all_sample_clean, file="data/all_sample_clean.txt",
             sep=",", row.names=F, col.names=FALSE, quote=F)
 
-all_sample_clean_no_profanity <- cleanWords_no_profanity(all_sample)
-write.table(x=all_sample_clean_no_profanity, file="data/all_sample_clean_no_profanity.txt",
-            sep=",", row.names=F, col.names=FALSE, quote=F)
+# all_sample_clean_no_profanity <- cleanWords_no_profanity(all_sample)
+# write.table(x=all_sample_clean_no_profanity, file="data/all_sample_clean_no_profanity.txt",
+#             sep=",", row.names=F, col.names=FALSE, quote=F)

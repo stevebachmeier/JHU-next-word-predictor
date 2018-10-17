@@ -4,7 +4,7 @@ library(Rgraphviz)
 # ==============================================================================
 # PROFILING
 # ==============================================================================
-source("f_nlpPredictor.R")
+source("f_nlpPredictor_4grams_WORKING.R")
 
 input <- "Hey! How long will this"
 

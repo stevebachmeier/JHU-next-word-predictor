@@ -21,7 +21,8 @@ SUGGESTIONS:
 	is not working properly
 [x] BUG 02: Cannot merge preds and ngrams_matched if ngrams_matched remains empty (ie if user words <3)
 [] Can indexing my all_ngrams files speed things up? ie extract last word of ngram and make a new column of that. Then index on that?
-[] (optional) Consider expanding to 4- or 5-grams to increase accuracy.
+[x] (optional) Consider expanding to 4- or 5-grams to increase accuracy.
+[] Create one preds table and append appropriate columns rather than different tables each search
 
 --------------------------------------------------------------------------------------------------------------------------------------------
 PROFILING:
@@ -55,5 +56,90 @@ Tried (nlpPredictor("Hey! How long will this"))
 8. Fixed Bug02: Added if statements when building pred to check if nrow(ngrams_matched)=0
 	* 0.42s - a bit slower.
 	* bottlenecks: unique.default, bmerge
-9. Added another n-gram and backoff.
+9. 4gram model
 	* 0.28s - faster for some reason
+	* bottlenecks: bmerge, grep, unique, [.data.table]
+10. 5gram model
+	* 0.3-0.44s - slower. Accuracy?
+	* bottlenecks: grep, bmerge
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+BENCHMARKING:
+Using benchmark.R found on github and the forum (password=capstone4)
+--------------------------------------------------------------------------------------------------------------------------------------------
+RESULTS from below.
+1. 3grams, 4grams, and 5grams models all have same accuracy. Just stick with 3grams.
+2. Having a single preds table instead of separate ones was slower (0.237s vs 0.218s).
+3. Tweaked for slightly faster speed (210ms vs 218ms)
+
+1. Compare 3grams, 4grams, and 5grams models; top 30 entries each for blogs and tweets
+	* f_nlpPredictor_3grams.R
+		Overall top-3 score:     16.77 %
+		Overall top-1 precision: 13.33 %
+		Overall top-3 precision: 19.78 %
+		Average runtime:         218.31 msec
+		Number of predictions:   1226
+		Total memory used:       74.56 MB
+
+		Dataset details
+		 Dataset "blogs" (30 lines, 662 words, hash d2bfc9cf36e2addcc9b5ef0ac03676196ae5730ea3f4aee5f9c8cc274991f5d1)
+		  Score: 15.44 %, Top-1 precision: 11.38 %, Top-3 precision: 19.08 %
+		 Dataset "tweets" (30 lines, 576 words, hash 92e858fbbd2d1433440fc9cf83590461750e67c1d788ca4e346d9edf17340c2d)
+		  Score: 18.11 %, Top-1 precision: 15.28 %, Top-3 precision: 20.49 %
+	
+	* f_nlpPredictor_4grams.R
+		Overall top-3 score:     16.77 %
+		Overall top-1 precision: 13.33 %
+		Overall top-3 precision: 19.78 %
+		Average runtime:         239.67 msec
+		Number of predictions:   1226
+		Total memory used:       78.31 MB
+
+		Dataset details
+		 Dataset "blogs" (30 lines, 662 words, hash d2bfc9cf36e2addcc9b5ef0ac03676196ae5730ea3f4aee5f9c8cc274991f5d1)
+		  Score: 15.44 %, Top-1 precision: 11.38 %, Top-3 precision: 19.08 %
+		 Dataset "tweets" (30 lines, 576 words, hash 92e858fbbd2d1433440fc9cf83590461750e67c1d788ca4e346d9edf17340c2d)
+		  Score: 18.11 %, Top-1 precision: 15.28 %, Top-3 precision: 20.49 %				
+
+	* f_nlpPredictor_5grams.R
+		Overall top-3 score:     16.77 %
+		Overall top-1 precision: 13.33 %
+		Overall top-3 precision: 19.78 %
+		Average runtime:         285.14 msec
+		Number of predictions:   1226
+		Total memory used:       79.63 MB
+
+		Dataset details
+		 Dataset "blogs" (30 lines, 662 words, hash d2bfc9cf36e2addcc9b5ef0ac03676196ae5730ea3f4aee5f9c8cc274991f5d1)
+		  Score: 15.44 %, Top-1 precision: 11.38 %, Top-3 precision: 19.08 %
+		 Dataset "tweets" (30 lines, 576 words, hash 92e858fbbd2d1433440fc9cf83590461750e67c1d788ca4e346d9edf17340c2d)
+		  Score: 18.11 %, Top-1 precision: 15.28 %, Top-3 precision: 20.49 %
+		  
+2. Compare one preds table vs separate; top 30 each tweets and blogs
+	* f_nlpPredictor_3grams_WORKING.R 
+		Overall top-3 score:     16.77 %
+		Overall top-1 precision: 13.33 %
+		Overall top-3 precision: 19.78 %
+		Average runtime:         237.31 msec
+		Number of predictions:   1226
+		Total memory used:       74.50 MB
+
+		Dataset details
+		 Dataset "blogs" (30 lines, 662 words, hash d2bfc9cf36e2addcc9b5ef0ac03676196ae5730ea3f4aee5f9c8cc274991f5d1)
+		  Score: 15.44 %, Top-1 precision: 11.38 %, Top-3 precision: 19.08 %
+		 Dataset "tweets" (30 lines, 576 words, hash 92e858fbbd2d1433440fc9cf83590461750e67c1d788ca4e346d9edf17340c2d)
+		  Score: 18.11 %, Top-1 precision: 15.28 %, Top-3 precision: 20.49 %
+		  
+3. Tweaked preds buildup to remove a couple of column renaming operations
+		Overall top-3 score:     16.77 %
+		Overall top-1 precision: 13.33 %
+		Overall top-3 precision: 19.78 %
+		Average runtime:         210.92 msec
+		Number of predictions:   1226
+		Total memory used:       74.54 MB
+
+		Dataset details
+		 Dataset "blogs" (30 lines, 662 words, hash d2bfc9cf36e2addcc9b5ef0ac03676196ae5730ea3f4aee5f9c8cc274991f5d1)
+		  Score: 15.44 %, Top-1 precision: 11.38 %, Top-3 precision: 19.08 %
+		 Dataset "tweets" (30 lines, 576 words, hash 92e858fbbd2d1433440fc9cf83590461750e67c1d788ca4e346d9edf17340c2d)
+		  Score: 18.11 %, Top-1 precision: 15.28 %, Top-3 precision: 20.49 %

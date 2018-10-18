@@ -7,7 +7,7 @@ library(tm)
 # ==============================================================================
 
 # ---- LOAD PROFANITY LIST ----
-stopwords_profanity <- scan(file="data/profanity_custom.txt", what="character")
+# stopwords_profanity <- scan(file="data/profanity_custom.txt", what="character")
 
 cleanWords <- function(x) {
   tolower(x=x) %>% # lowercase

@@ -17,8 +17,6 @@ all_4grams <- data.table(read.csv(file="data/all_4grams.txt",
                                   header=T, sep=",", stringsAsFactors=F))
 all_5grams <- data.table(read.csv(file="data/all_5grams.txt", 
                                   header=T, sep=",", stringsAsFactors=F))
-# all_6grams <- data.table(read.csv(file="data/all_6grams.txt", 
-#                                   header=T, sep=",", stringsAsFactors=F))
 
 # ---- STUPID BACKOFF ----
 nlpPredictor <- function(input) {
@@ -40,15 +38,12 @@ nlpPredictor <- function(input) {
     ngram=character(), pred=character(), freq=numeric(), S=numeric())
   ngrams_matched_bo4 <- data.table(
     ngram=character(), pred=character(), freq=numeric(), S=numeric())
-  # ngrams_matched_bo5 <- data.table(
-  #   ngram=character(), pred=character(), freq=numeric(), S=numeric())
   
   preds <- data.table(pred=all_1grams$ngram, S=0)
   preds_bo1 <- data.table(pred=all_1grams$ngram, S=0)
   preds_bo2 <- data.table(pred=all_1grams$ngram, S=0)
   preds_bo3 <- data.table(pred=all_1grams$ngram, S=0)
   preds_bo4 <- data.table(pred=all_1grams$ngram, S=0)
-  # preds_bo5 <- data.table(pred=all_1grams$ngram, S=0)
   
   # Initial search
   source("f_cleanWords.R")

@@ -8,6 +8,7 @@ require(data.table)
 #
 ################################################################################################
 
+remove(list = ls())
 
 # 01b. Get text from randomly selected tweets
 ################################################################################################
@@ -207,7 +208,7 @@ benchmark <- compiler::cmpfun(function(FUN, ..., sent.list, ext.output=T) {
 # the three most frequent English words.
 # predict.baseline <- function(x){c('the', 'on', 'a')}
 
-source("f_nlpPredictor_3grams_WORKING.R")
+source("f_nlpPredictor_3grams.R")
 predict.baseline <- function(x) {nlpPredictor(x)}
 
 
@@ -217,8 +218,44 @@ predict.baseline <- function(x) {nlpPredictor(x)}
 # 04. Perform the benchmark
 #
 ################################################################################################
+n_tweets <- 20
+n_blogs <- 20
+
+# n_tweets <- length(tweets)
+# n_blogs <- length(blogs)
+
 benchmark(predict.baseline, 
           # additional parameters to be passed to the prediction function can be inserted here
-          sent.list = list('tweets' = tweets, 
-                           'blogs' = blogs), 
+          sent.list = list('tweets' = tweets[1:n_tweets], 
+                           'blogs' = blogs[1:n_blogs]), 
           ext.output = T)
+
+################################################################################################
+#
+# 05. Repeats
+#
+################################################################################################
+
+rm(list = ls()[grep("all_", ls())])
+rm(nlpPredictor, cleanWords, predict.baseline)
+
+source("f_nlpPredictor_3grams_GOOD.R")
+predict.baseline <- function(x) {nlpPredictor(x)}
+
+benchmark(predict.baseline, 
+          # additional parameters to be passed to the prediction function can be inserted here
+          sent.list = list('tweets' = tweets[1:n_tweets], 
+                           'blogs' = blogs[1:n_blogs]), 
+          ext.output = T)
+
+rm(list = ls()[grep("all_", ls())])
+rm(nlpPredictor, cleanWords, predict.baseline)
+
+# source("f_nlpPredictor_5grams.R")
+# predict.baseline <- function(x) {nlpPredictor(x)}
+# 
+# benchmark(predict.baseline, 
+#           # additional parameters to be passed to the prediction function can be inserted here
+#           sent.list = list('tweets' = tweets[1:n_tweets], 
+#                            'blogs' = blogs[1:n_blogs]), 
+#           ext.output = T)

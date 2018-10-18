@@ -7,9 +7,16 @@ shinyUI(fluidPage(
     mainPanel(
       tabsetPanel(type="tabs",
                   tabPanel("Main", 
-                           textInput("box1", "Type away:"),
-                           submitButton("Submit"),
-                           textOutput("preds_out")),
+                           h3("Type away:"),
+                           textInput("box1", label=NULL, placeholder="Start typing:", width="100%"),
+                           # submitButton("Submit"),
+                           # actionButton(label="Submit", inputId=1),
+                           br(),
+                           h3("Suggestions:"),
+                           p("Shown below are the top three suggestions from the model and their respective scores."),
+                           # textOutput("predictions")),
+                           # renderPrint("predictions")),
+                           verbatimTextOutput("predictions")),
                   
                   tabPanel("Help", 
                            h3("Background"),
@@ -17,8 +24,7 @@ shinyUI(fluidPage(
                            
                            h3("Instructions"),
                            p("1. Start typing (in English) into the input box."), 
-                           p("2. Click submit when ready."),
-                           p("3. Three next word predictions will be provided."),
+                           p("2. Three next word predictions will be provided."),
                            
                            h3("Approach"),
                            p("This app uses a Stupid Backoff model (reference 'Large Language Models in Machine Translation,' 
@@ -34,7 +40,8 @@ shinyUI(fluidPage(
                            p("In the event that the user would like a prediction based on less than three words, the model simply starts with
                              the appropriate n-gram list."),
                            p("Note that three predictions will always be provided. In cases where there are very few or no n-gram matches,
-                             the model simply provides the most commonly used words from the sample corpus.")
+                             the model simply provides the most commonly used words from the sample corpus. This is why three suggestions are
+                             provided even before the user begins typing.")
                            )
       )
     )

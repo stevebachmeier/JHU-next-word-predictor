@@ -21,7 +21,7 @@ blogs_raw <- readLines(con, skipNul=T, encoding="UTF-8")
 close(con)
 
 # ---- SAMPLE DATA ----
-sample_percentage <- 0.1
+sample_percentage <- 0.25
 set.seed(101)
 twitter_sample <- sample(x=twitter_raw, replace=F,
                          size=round(length(twitter_raw)*sample_percentage))

@@ -23,6 +23,8 @@ SUGGESTIONS:
 [] Can indexing my all_ngrams files speed things up? ie extract last word of ngram and make a new column of that. Then index on that?
 [x] (optional) Consider expanding to 4- or 5-grams to increase accuracy.
 [] Create one preds table and append appropriate columns rather than different tables each search
+[x] Test different ngrams freq filtering (default has been 3)
+[x] Test accuracies of different sampling sizes
 
 --------------------------------------------------------------------------------------------------------------------------------------------
 PROFILING:
@@ -80,12 +82,6 @@ RESULTS from below.
 		Average runtime:         218.31 msec
 		Number of predictions:   1226
 		Total memory used:       74.56 MB
-
-		Dataset details
-		 Dataset "blogs" (30 lines, 662 words, hash d2bfc9cf36e2addcc9b5ef0ac03676196ae5730ea3f4aee5f9c8cc274991f5d1)
-		  Score: 15.44 %, Top-1 precision: 11.38 %, Top-3 precision: 19.08 %
-		 Dataset "tweets" (30 lines, 576 words, hash 92e858fbbd2d1433440fc9cf83590461750e67c1d788ca4e346d9edf17340c2d)
-		  Score: 18.11 %, Top-1 precision: 15.28 %, Top-3 precision: 20.49 %
 	
 	* f_nlpPredictor_4grams.R
 		Overall top-3 score:     16.77 %
@@ -93,13 +89,7 @@ RESULTS from below.
 		Overall top-3 precision: 19.78 %
 		Average runtime:         239.67 msec
 		Number of predictions:   1226
-		Total memory used:       78.31 MB
-
-		Dataset details
-		 Dataset "blogs" (30 lines, 662 words, hash d2bfc9cf36e2addcc9b5ef0ac03676196ae5730ea3f4aee5f9c8cc274991f5d1)
-		  Score: 15.44 %, Top-1 precision: 11.38 %, Top-3 precision: 19.08 %
-		 Dataset "tweets" (30 lines, 576 words, hash 92e858fbbd2d1433440fc9cf83590461750e67c1d788ca4e346d9edf17340c2d)
-		  Score: 18.11 %, Top-1 precision: 15.28 %, Top-3 precision: 20.49 %				
+		Total memory used:       78.31 MB			
 
 	* f_nlpPredictor_5grams.R
 		Overall top-3 score:     16.77 %
@@ -108,12 +98,6 @@ RESULTS from below.
 		Average runtime:         285.14 msec
 		Number of predictions:   1226
 		Total memory used:       79.63 MB
-
-		Dataset details
-		 Dataset "blogs" (30 lines, 662 words, hash d2bfc9cf36e2addcc9b5ef0ac03676196ae5730ea3f4aee5f9c8cc274991f5d1)
-		  Score: 15.44 %, Top-1 precision: 11.38 %, Top-3 precision: 19.08 %
-		 Dataset "tweets" (30 lines, 576 words, hash 92e858fbbd2d1433440fc9cf83590461750e67c1d788ca4e346d9edf17340c2d)
-		  Score: 18.11 %, Top-1 precision: 15.28 %, Top-3 precision: 20.49 %
 		  
 2. Compare one preds table vs separate; top 30 each tweets and blogs
 	* f_nlpPredictor_3grams_WORKING.R 
@@ -123,23 +107,165 @@ RESULTS from below.
 		Average runtime:         237.31 msec
 		Number of predictions:   1226
 		Total memory used:       74.50 MB
-
-		Dataset details
-		 Dataset "blogs" (30 lines, 662 words, hash d2bfc9cf36e2addcc9b5ef0ac03676196ae5730ea3f4aee5f9c8cc274991f5d1)
-		  Score: 15.44 %, Top-1 precision: 11.38 %, Top-3 precision: 19.08 %
-		 Dataset "tweets" (30 lines, 576 words, hash 92e858fbbd2d1433440fc9cf83590461750e67c1d788ca4e346d9edf17340c2d)
-		  Score: 18.11 %, Top-1 precision: 15.28 %, Top-3 precision: 20.49 %
 		  
-3. Tweaked preds buildup to remove a couple of column renaming operations
+3. Tweaked preds buildup to remove a couple of column renaming operations; top 30 lines
 		Overall top-3 score:     16.77 %
 		Overall top-1 precision: 13.33 %
 		Overall top-3 precision: 19.78 %
 		Average runtime:         210.92 msec
 		Number of predictions:   1226
 		Total memory used:       74.54 MB
+		  
+4. Tried filtering to freq=10 instead of 3; top 20 lines
+Result: 51% faster; 15.6% less accurate
+	* freq=10
+		Overall top-3 score:     14.38 %
+		Overall top-1 precision: 11.61 %
+		Overall top-3 precision: 16.76 %
+		Average runtime:         237.82 msec
+		Number of predictions:   758
+		Total memory used:       17.72 MB
+	* freq=3, first 20 each of tweets and blogs
+		Overall top-3 score:     17.03 %
+		Overall top-1 precision: 14.00 %
+		Overall top-3 precision: 19.53 %
+		Average runtime:         490.17 msec
+		Number of predictions:   758
+		Total memory used:       74.79 MB
+		
+5. Compared 10% corpus sampling to 20% corpus sampling; top 20 lines
+Results: 0.3% less accurate; 34% faster
+	* 10%
+		Overall top-3 score:     14.38 %
+		Overall top-1 precision: 11.61 %
+		Overall top-3 precision: 16.76 %
+		Average runtime:         77.35 msec
+		Number of predictions:   758
+		Total memory used:       17.73 MB
+	* 20%
+		Overall top-3 score:     14.43 %
+		Overall top-1 precision: 11.48 %
+		Overall top-3 precision: 17.02 %
+		Average runtime:         117.61 msec
+		Number of predictions:   758
+		Total memory used:       33.82 MB
+6. Compare a 5% corpus sampling to a 10%; top 20 lines
+Results: 7% less accurate, 31% faster
+	* 5%
+		Overall top-3 score:     13.37 %
+		Overall top-1 precision: 10.82 %
+		Overall top-3 precision: 15.70 %
+		Average runtime:         51.53 msec
+		Number of predictions:   758
+		Total memory used:       9.78 MB
+	* 10%
+		Overall top-3 score:     14.38 %
+		Overall top-1 precision: 11.61 %
+		Overall top-3 precision: 16.76 %
+		Average runtime:         74.45 msec
+		Number of predictions:   758
+		Total memory used:       17.73 MB
 
-		Dataset details
-		 Dataset "blogs" (30 lines, 662 words, hash d2bfc9cf36e2addcc9b5ef0ac03676196ae5730ea3f4aee5f9c8cc274991f5d1)
-		  Score: 15.44 %, Top-1 precision: 11.38 %, Top-3 precision: 19.08 %
-		 Dataset "tweets" (30 lines, 576 words, hash 92e858fbbd2d1433440fc9cf83590461750e67c1d788ca4e346d9edf17340c2d)
-		  Score: 18.11 %, Top-1 precision: 15.28 %, Top-3 precision: 20.49 %
+7. Compare freq=6 to freq=10; 5% sampling, top 20 lines
+Results: 4% more accurate; 26% slower
+	* freq=6:
+		Overall top-3 score:     13.90 %
+		Overall top-1 precision: 11.22 %
+		Overall top-3 precision: 16.36 %
+		Average runtime:         73.11 msec
+		Number of predictions:   758
+		Total memory used:       16.22 MB
+	* freq=10:
+		Overall top-3 score:     13.37 %
+		Overall top-1 precision: 10.82 %
+		Overall top-3 precision: 15.70 %
+		Average runtime:         58.22 msec
+		Number of predictions:   758
+		Total memory used:       9.78 MB
+8. Compare freq=3 to freq=4; 5% sampling; top 20 lines
+Results: 1.2% more accurate; 30% slowerr
+	* freq=3:
+		Overall top-3 score:     14.69 %
+		Overall top-1 precision: 11.88 %
+		Overall top-3 precision: 17.29 %
+		Average runtime:         135.45 msec
+		Number of predictions:   758
+		Total memory used:       38.28 MB
+	* freq=4:
+		Overall top-3 score:     14.52 %
+		Overall top-1 precision: 11.75 %
+		Overall top-3 precision: 17.16 %
+		Average runtime:         104.38 msec
+		Number of predictions:   758
+		Total memory used:       25.98 MB
+		
+9. Compare freq=1 to freq=10; 5% sampling; top 20 lines
+Results: 14% more accurate; 1,567% slower
+	* freq=1
+		Overall top-3 score:     15.23 %
+		Overall top-1 precision: 12.54 %
+		Overall top-3 precision: 17.69 %
+		Average runtime:         1026.45 msec
+		Number of predictions:   758
+		Total memory used:       765.65 MB
+	* freq=10
+		Overall top-3 score:     13.37 %
+		Overall top-1 precision: 10.82 %
+		Overall top-3 precision: 15.70 %
+		Average runtime:         61.56 msec
+		Number of predictions:   758
+		Total memory used:       9.78 MB
+		
+10. Compare freq=2 vs freq=3; 10% sampling; top 20 lines
+Results: 1% more accurate; 67% slower
+	* freq=2
+		Overall top-3 score:     17.20 %
+		Overall top-1 precision: 14.13 %
+		Overall top-3 precision: 19.53 %
+		Average runtime:         374.23 msec
+		Number of predictions:   758
+		Total memory used:       149.60 MB
+	* freq=3
+		Overall top-3 score:     17.03 %
+		Overall top-1 precision: 14.00 %
+		Overall top-3 precision: 19.53 %
+		Average runtime:         224.02 msec
+		Number of predictions:   758
+		Total memory used:       74.79 MB
+		
+11. Compare freq=3 vs freq=4; 10% sampling; top 20 lines
+Results: 12% increase in accuracy, 25% reduction in speed.
+	This is the balance point! Accuracy? Go with freq=3. Speed? go with freq=4.
+	Freq=3 already works well enough online, so stick with that.
+	* freq=3
+		Overall top-3 score:     17.03 %
+		Overall top-1 precision: 14.00 %
+		Overall top-3 precision: 19.53 %
+		Average runtime:         247.37 msec
+		Number of predictions:   758
+		Total memory used:       74.79 MB
+	* freq=4
+		Overall top-3 score:     15.09 %
+		Overall top-1 precision: 12.27 %
+		Overall top-3 precision: 17.68 %
+		Average runtime:         197.57 msec
+		Number of predictions:   758
+		Total memory used:       50.22 MB
+
+11. Compare 25% sample to 10% sample; freq=3; top 20 lines
+Results: .82 LESS accurate; 84% slower -> obvviously go with 10% sample.
+	* 25% sample
+		Overall top-3 score:     16.89 %
+		Overall top-1 precision: 13.85 %
+		Overall top-3 precision: 19.39 %
+		Average runtime:         451.57 msec
+		Number of predictions:   758
+		Total memory used:       185.64 MB
+	* 10% sample
+		Overall top-3 score:     17.03 %
+		Overall top-1 precision: 14.00 %
+		Overall top-3 precision: 19.53 %
+		Average runtime:         244.97 msec
+		Number of predictions:   758
+		Total memory used:       74.79 MB
+

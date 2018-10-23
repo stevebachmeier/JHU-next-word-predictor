@@ -236,21 +236,18 @@ benchmark(predict.baseline,
 #
 ################################################################################################
 
-rm(list = ls()[grep("all_", ls())])
-rm(nlpPredictor, cleanWords, predict.baseline)
+# rm(list = ls()[grep("all_", ls())])
+# rm(nlpPredictor, cleanWords, predict.baseline)
+# source("f_nlpPredictor_3grams_GOOD.R")
+# predict.baseline <- function(x) {nlpPredictor(x)}
+# benchmark(predict.baseline, 
+#           # additional parameters to be passed to the prediction function can be inserted here
+#           sent.list = list('tweets' = tweets[1:n_tweets], 
+#                            'blogs' = blogs[1:n_blogs]), 
+#           ext.output = T)
 
-source("f_nlpPredictor_3grams_GOOD.R")
-predict.baseline <- function(x) {nlpPredictor(x)}
-
-benchmark(predict.baseline, 
-          # additional parameters to be passed to the prediction function can be inserted here
-          sent.list = list('tweets' = tweets[1:n_tweets], 
-                           'blogs' = blogs[1:n_blogs]), 
-          ext.output = T)
-
-rm(list = ls()[grep("all_", ls())])
-rm(nlpPredictor, cleanWords, predict.baseline)
-
+# rm(list = ls()[grep("all_", ls())])
+# rm(nlpPredictor, cleanWords, predict.baseline)
 # source("f_nlpPredictor_5grams.R")
 # predict.baseline <- function(x) {nlpPredictor(x)}
 # 

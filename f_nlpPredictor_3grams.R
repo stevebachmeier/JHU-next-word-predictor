@@ -127,11 +127,15 @@ nlpPredictor <- function(input) {
                             S=(preds$S0 + preds_bo1$S_bo1 + preds_bo2$S_bo2 + preds_bo3$S_bo3))
   predictions <- predictions[order(-S)]
   
-  # c(predictions[1:3,1])$word # For benchmark.R
+  c(predictions[1:3,1])$word # For benchmark.R
   
   # cat(paste0(input, ":", "\n",
   #           " [1] ", predictions[1]$word, " (S=",round(predictions[1]$S, 2),")", "\n",
   #           " [2] ", predictions[2]$word, " (S=",round(predictions[2]$S, 2),")", "\n",
   #           " [3] ", predictions[3]$word, " (S=",round(predictions[3]$S, 2),")"))
+  
+  # cat(paste0(" [1] ", predictions[1]$word, " (S=",round(predictions[1]$S, 2),")", "\n",
+  #            " [2] ", predictions[2]$word, " (S=",round(predictions[2]$S, 2),")", "\n",
+  #            " [3] ", predictions[3]$word, " (S=",round(predictions[3]$S, 2),")"))
 
 }

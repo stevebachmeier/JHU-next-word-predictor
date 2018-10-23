@@ -1,32 +1,33 @@
 library(shiny)
 
-shinyUI(fluidPage(
+shinyUI(fluidPage(#theme = "bootstrap.css",
   titlePanel("Next Word Predictor"),
-    
+      
     # Main panel
     mainPanel(
       tabsetPanel(type="tabs",
                   tabPanel("Main", 
-                           h3("Type away:"),
+                           h2("Type away:"),
                            textInput("box1", label=NULL, placeholder="Start typing:", width="100%"),
                            # submitButton("Submit"),
                            # actionButton(label="Submit", inputId=1),
                            br(),
-                           h3("Suggestions:"),
+                           h2("Suggestions:"),
                            p("Shown below are the top three suggestions from the model and their respective scores."),
                            # textOutput("predictions")),
                            # renderPrint("predictions")),
-                           verbatimTextOutput("predictions")),
+                           # verbatimTextOutput("predictions")),
+                           htmlOutput("predictions")),
                   
                   tabPanel("Help", 
-                           h3("Background"),
+                           h2("Background"),
                            p("This app takes user text input and provides three recommendations for the next word."),
                            
-                           h3("Instructions"),
+                           h2("Instructions"),
                            p("1. Start typing (in English) into the input box."), 
                            p("2. Three next word predictions will be provided."),
                            
-                           h3("Approach"),
+                           h2("Approach"),
                            p("This app uses a Stupid Backoff model (reference 'Large Language Models in Machine Translation,' 
                               Brants et al, Proceedings of the 2007 Joint Conference on Empirical Methods in Natural Language Processing and 
                               Computational Natural Language Learning, pp. 858-867, Prague, June 2007) using n-grams derived from three 

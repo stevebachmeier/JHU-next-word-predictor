@@ -1,0 +1,12 @@
+name: nextWordPredictor
+title: nextWordPredictor
+username:
+account: stevebachmeier
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 522473
+bundleId: 1659377
+url: https://stevebachmeier.shinyapps.io/nextWordPredictor/
+when: 1540342982.02688
+asMultiple: FALSE
+asStatic: FALSE

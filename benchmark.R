@@ -218,11 +218,11 @@ predict.baseline <- function(x) {nlpPredictor(x)}
 # 04. Perform the benchmark
 #
 ################################################################################################
-n_tweets <- 20
-n_blogs <- 20
+# n_tweets <- 20
+# n_blogs <- 20
 
-# n_tweets <- length(tweets)
-# n_blogs <- length(blogs)
+n_tweets <- length(tweets)
+n_blogs <- length(blogs)
 
 benchmark(predict.baseline, 
           # additional parameters to be passed to the prediction function can be inserted here

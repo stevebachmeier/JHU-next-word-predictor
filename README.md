@@ -1,4 +1,4 @@
-# nlpPredictorSwiftkey
+# Next-word predictor
 This is the final capstone project for the Johns Hopkins University Data Science Specialization.
 
 ## Goal

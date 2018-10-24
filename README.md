@@ -11,6 +11,7 @@ The data used for this project is provided by Swiftkey. There are files for twit
 
 ## Basic instructions
 The final presentation is located online at http://rpubs.com/SteveBachmeier/nextWordPredictor-Presentation.
+
 The app is located online at https://stevebachmeier.shinyapps.io/nextWordPredictor/.
 
 To run the app within R:

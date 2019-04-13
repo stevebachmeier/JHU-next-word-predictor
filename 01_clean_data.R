@@ -21,7 +21,7 @@ blogs_raw <- readLines(con, skipNul=T, encoding="UTF-8")
 close(con)
 
 # ---- SAMPLE DATA ----
-sample_percentage <- 0.25
+sample_percentage <- 0.10 # 10% sampling is a good balance of speed/accuracy
 set.seed(101)
 twitter_sample <- sample(x=twitter_raw, replace=F,
                          size=round(length(twitter_raw)*sample_percentage))
@@ -31,16 +31,6 @@ blogs_sample <- sample(x=blogs_raw, replace=F,
                        size=round(length(blogs_raw)*sample_percentage))
 
 all_sample <- c(twitter_sample, news_sample, blogs_sample)
-
-# all_sample <- c("What should I eat? Should I do?",
-#                 "Should I go there? Where can I go?",
-#                 "What should I say to her?",
-#                 "Where should I put it?")
-
-# all_sample <- c("I eat apples.",
-#                 "We eat apples!",
-#                 "You eat apples.",
-#                 "They eat bananas?")
 
 # ==============================================================================
 # CLEAN DATA

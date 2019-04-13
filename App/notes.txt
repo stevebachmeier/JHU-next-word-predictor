@@ -1,8 +1,0 @@
-App differences
-* 01 - original; 10% sampling; freq=3 (/nextWordPredictor)
-* 02: 5% sampling; freq=10 (/nextWordPredictor2)
-	Although benchmarking showed this should be much faster, I didn't notice a big difference in real-life usability on the website.
-	I did, however, notice a decrease in accuracy.
-	STICK WITH 01
-* 03: xxx% sampling; freq=xxx
-	

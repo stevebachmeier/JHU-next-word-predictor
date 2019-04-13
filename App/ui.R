@@ -22,6 +22,7 @@ shinyUI(fluidPage(#theme = "bootstrap.css",
                   tabPanel("Help", 
                            h2("Background"),
                            p("This app takes user text input and provides three recommendations for the next word."),
+						   p("The project can be found at my github: https://github.com/stevebachmeier/"),
                            
                            h2("Instructions"),
                            p("1. Start typing (in English) into the input box."), 

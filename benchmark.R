@@ -218,8 +218,6 @@ predict.baseline <- function(x) {nlpPredictor(x)}
 # 04. Perform the benchmark
 #
 ################################################################################################
-# n_tweets <- 20
-# n_blogs <- 20
 
 n_tweets <- length(tweets)
 n_blogs <- length(blogs)
